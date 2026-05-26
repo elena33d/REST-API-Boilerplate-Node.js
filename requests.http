@@ -1,0 +1,66 @@
+### GET all
+GET http://localhost:3000/announcements
+
+###
+
+GET http://localhost:3000/announcements?search=asus
+
+###
+
+GET http://localhost:3000/announcements?sort=oldest&page=1
+
+###
+
+GET http://localhost:3000/announcements/1
+
+###
+
+GET http://localhost:3000/announcements/999
+
+###
+
+POST http://localhost:3000/announcements
+Content-Type: application/json
+
+{
+  "title": "Продам ноутбук ASUS",
+  "description": "Ноутбук у відмінному стані",
+  "price": 18000,
+  "category": "sale",
+  "contactInfo": "0991234567"
+}
+
+###
+
+POST http://localhost:3000/announcements
+Content-Type: application/json
+
+{
+  "title": "bad"
+}
+
+###
+
+PATCH http://localhost:3000/announcements/1
+Content-Type: application/json
+
+{
+  "price": 15000
+}
+
+###
+
+PATCH http://localhost:3000/announcements/999
+Content-Type: application/json
+
+{
+  "price": 15000
+}
+
+###
+
+DELETE http://localhost:3000/announcements/1
+
+###
+
+DELETE http://localhost:3000/announcements/999
