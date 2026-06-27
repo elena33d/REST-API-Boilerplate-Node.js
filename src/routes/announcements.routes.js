@@ -15,88 +15,49 @@ import {
   updateAnnouncementValidator
 } from '../validators/announcements.validator.js'
 
+import { authenticate } from '../middleware/auth.middleware.js'
+
 const router = Router()
 
 /**
- * @swagger
- * /announcements:
- *   get:
- *     summary: Get all announcements
- *     responses:
- *       200:
- *         description: Success
+ * GET /announcements (PUBLIC)
  */
 router.get('/', getAnnouncementsValidator, getAnnouncements)
 
 /**
- * @swagger
- * /announcements/{id}:
- *   get:
- *     summary: Get announcement by id
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Success
+ * GET /announcements/:id (PUBLIC)
  */
 router.get('/:id', idValidator, getAnnouncementById)
 
 /**
- * @swagger
- * /announcements:
- *   post:
- *     summary: Create announcement
- *     responses:
- *       201:
- *         description: Created
+ * POST /announcements (PRIVATE)
  */
 router.post(
   '/',
+  authenticate,
   createAnnouncementValidator,
   createAnnouncement
 )
 
 /**
- * @swagger
- * /announcements/{id}:
- *   patch:
- *     summary: Update announcement
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Updated
+ * PATCH /announcements/:id (PRIVATE + OWNER)
  */
 router.patch(
   '/:id',
+  authenticate,
   idValidator,
   updateAnnouncementValidator,
   updateAnnouncement
 )
 
 /**
- * @swagger
- * /announcements/{id}:
- *   delete:
- *     summary: Delete announcement
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       204:
- *         description: Deleted
+ * DELETE /announcements/:id (PRIVATE + OWNER)
  */
-router.delete('/:id', idValidator, deleteAnnouncement)
+router.delete(
+  '/:id',
+  authenticate,
+  idValidator,
+  deleteAnnouncement
+)
 
 export default router

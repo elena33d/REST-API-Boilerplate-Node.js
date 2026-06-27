@@ -3,6 +3,8 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerJsdoc from 'swagger-jsdoc'
 import { errors as celebrateErrors } from 'celebrate'
 import announcementsRouter from './src/routes/announcements.routes.js'
+import authRouter from './src/routes/auth.routes.js'
+import cookieParser from 'cookie-parser'
 
 
 const app = express()
@@ -28,12 +30,14 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions)
 
 app.use(express.json())
+app.use(cookieParser())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
-app.use(celebrateErrors())
-
+app.use('/auth', authRouter)
 app.use('/announcements', announcementsRouter)
+
+app.use(celebrateErrors())
 
 // Our routes would go here, for example:
 // app.use('/api/announcements', announcementsRouter)

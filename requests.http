@@ -1,66 +1,89 @@
-### GET all
+### HEALTH CHECK (public)
 GET http://localhost:3000/announcements
 
-###
-
+### SEARCH
 GET http://localhost:3000/announcements?search=asus
 
-###
-
+### SORT + PAGINATION
 GET http://localhost:3000/announcements?sort=oldest&page=1
 
-###
 
+### GET BY ID (existing)
 GET http://localhost:3000/announcements/1
 
-###
+### GET BY ID (NOT FOUND)
+GET http://localhost:3000/announcements/999999
 
-GET http://localhost:3000/announcements/999
 
-###
+### REGISTER USER
+POST http://localhost:3000/auth/register
+Content-Type: application/json
 
+{
+  "username": "test_user",
+  "password": "123456",
+  "name": "Test"
+}
+
+
+### LOGIN USER
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "test_user",
+  "password": "123456"
+}
+
+
+### SAVE TOKEN (MANUAL COPY FROM LOGIN RESPONSE)
+# accessToken → вставь ниже
+@token = YOUR_ACCESS_TOKEN_HERE
+
+
+### CREATE ANNOUNCEMENT (AUTH REQUIRED)
 POST http://localhost:3000/announcements
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "title": "Продам ноутбук ASUS",
-  "description": "Ноутбук у відмінному стані",
-  "price": 18000,
+  "description": "Очень хороший ноутбук 16GB RAM",
+  "price": 15000,
   "category": "sale",
   "contactInfo": "0991234567"
 }
 
-###
 
-POST http://localhost:3000/announcements
-Content-Type: application/json
-
-{
-  "title": "bad"
-}
-
-###
-
+### UPDATE ANNOUNCEMENT (OWNER ONLY)
 PATCH http://localhost:3000/announcements/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "price": 15000
+  "price": 14000
 }
 
-###
 
-PATCH http://localhost:3000/announcements/999
-Content-Type: application/json
-
-{
-  "price": 15000
-}
-
-###
-
+### DELETE ANNOUNCEMENT (OWNER ONLY)
 DELETE http://localhost:3000/announcements/1
+Authorization: Bearer {{token}}
 
-###
 
-DELETE http://localhost:3000/announcements/999
+### GET ME (AUTH)
+GET http://localhost:3000/auth/me
+Authorization: Bearer {{token}}
+
+
+### LOGOUT
+POST http://localhost:3000/auth/logout
+Authorization: Bearer {{token}}
+
+
+### REFRESH TOKEN
+POST http://localhost:3000/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "PASTE_REFRESH_TOKEN_HERE"
+}
